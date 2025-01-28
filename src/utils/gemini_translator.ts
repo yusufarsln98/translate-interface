@@ -54,13 +54,8 @@ export class GeminiTranslator extends TranslationLLM<GeminiConfig> {
       const model = this.genAI.getGenerativeModel({
         model: this.config.modelName,
       })
-      let sourceLang = ''
-      if (input.sourceLanguage === 'auto') {
-        const detection = await this.detectLanguage({ text: input.text })
-        sourceLang = detection.languageCode
-      } else {
-        sourceLang = input.sourceLanguage
-      }
+      const detection = await this.detectLanguage({ text: input.text })
+      const sourceLang = detection.languageCode
 
       let targetLang = ''
 
@@ -76,7 +71,6 @@ export class GeminiTranslator extends TranslationLLM<GeminiConfig> {
       }
 
       const prompt = `Translate from ${sourceLang} to ${targetLang}: ${input.text}. Respond ONLY with the translated text.`
-
       const result = await model.generateContent(prompt)
       const translatedText = result.response.text().trim()
 
