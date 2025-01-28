@@ -6,7 +6,7 @@ export const siteConfig = {
   navItems: {
     tr: [
       {
-        label: 'Local Translate',
+        label: 'Çeviri',
         href: '/home',
       },
     ],
