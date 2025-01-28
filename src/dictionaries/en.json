@@ -1,0 +1,29 @@
+{
+  "about": {
+    "title": "About Us",
+    "content": "This is a sample about page."
+  },
+  "home": {
+    "tableColumns": {
+      "materialCode": "Material Code",
+      "storageLocation": "Storage Location",
+      "batchNumber": "Batch Number",
+      "stockQuantity2": "Stock Quantity",
+      "stockUnit2": "Stock Unit",
+      "materialType": "Material Type",
+      "description": "Description",
+      "dimension1": "Dimension 1",
+      "dimension2": "Dimension 2",
+      "dimension3": "Dimension 3"
+    },
+    "buttons": {
+      "columns": "Columns"
+    },
+    "placeholders": {
+      "search": "Search Material Code or Description..."
+    },
+    "total": "Total",
+    "material": "Materials",
+    "rowsPerPage": "Rows per page: "
+  }
+}
