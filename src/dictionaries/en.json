@@ -24,6 +24,14 @@
       {
         "label": "Spanish",
         "key": "es"
+      },
+      {
+        "label": "Arabic",
+        "key": "ar"
+      },
+      {
+        "label": "Greek",
+        "key": "el"
       }
     ],
     "detectLanguage": "Detect Language",

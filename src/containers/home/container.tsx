@@ -79,6 +79,11 @@ export default function HomeContainer({ dictionary: t }: HomeContainerProps) {
     )
     if (!selectedLanguage) return
     setSourceLanguage(selectedLanguage.key)
+
+    // if both of the languages are exist, translate the text
+    if (targetLanguage) {
+      handleTranslate(sourceText)
+    }
   }
 
   const handleTargetLanguageChange = (key: string | number | null) => {
@@ -88,6 +93,11 @@ export default function HomeContainer({ dictionary: t }: HomeContainerProps) {
     )
     if (!selectedLanguage) return
     setTargetLanguage(selectedLanguage.key)
+
+    // if both of the languages are exist, translate the text
+    if (sourceLanguage) {
+      handleTranslate(sourceText)
+    }
   }
 
   return (

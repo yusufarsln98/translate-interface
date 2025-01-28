@@ -24,6 +24,14 @@
       {
         "label": "İspanyolca",
         "key": "es"
+      },
+      {
+        "label": "Arapça",
+        "key": "ar"
+      },
+      {
+        "label": "Yunanca",
+        "key": "el"
       }
     ],
     "detectLanguage": "Dili Algıla",
