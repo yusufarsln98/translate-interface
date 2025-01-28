@@ -3,9 +3,7 @@ import { getDictionary } from '@/dictionaries/get-dictionary'
 import { Locale } from '@/dictionaries/i18n-config'
 
 interface HomePageProps {
-  params: {
-    lang: Locale
-  }
+  params: Promise<{ lang: Locale }>
 }
 export default async function HomePage({ params }: HomePageProps) {
   const { lang } = await params

@@ -6,26 +6,15 @@ export const siteConfig = {
   navItems: {
     tr: [
       {
-        label: 'Ana Sayfa',
+        label: 'Local Translate',
         href: '/home',
-      },
-      {
-        label: 'Hakkında',
-        href: '/about',
       },
     ],
     en: [
       {
-        label: 'Home',
+        label: 'Local Translate',
         href: '/home',
       },
-      {
-        label: 'About',
-        href: '/about',
-      },
     ],
-  },
-  links: {
-    github: 'https://github.com/',
   },
 }

@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import { IconSvgProps } from '@/types'
 
-export const Logo: React.FC<IconSvgProps> = ({
+export const sLogo: React.FC<IconSvgProps> = ({
   size = 36,
   width,
   height,
@@ -50,6 +50,46 @@ export const Logo: React.FC<IconSvgProps> = ({
       <path
         className="st5"
         d="M165.2 269.1L106.1 231.3 93.5 239.4 152.5 277.2z"
+      />
+    </svg>
+  )
+}
+
+export const Logo: React.FC<IconSvgProps> = ({
+  size = 42,
+  width,
+  height,
+  ...props
+}) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={size || width}
+      height={size || height}
+      viewBox="0 0 48 48"
+      {...props}
+    >
+      <path
+        fill="#CFD8DC"
+        d="M15 13h25a2 2 0 0 1 2 2v25a2 2 0 0 1-2 2H26L15 13z"
+      />
+      <path
+        fill="#546E7A"
+        d="m26.832 34.854-.916-1.776.889-.459c.061-.031 6.101-3.208 9.043-9.104l.446-.895 1.79.893-.447.895c-3.241 6.496-9.645 9.85-9.916 9.989l-.889.457z"
+      />
+      <path
+        fill="#546E7A"
+        d="m38.019 34-.87-.49c-.207-.116-5.092-2.901-8.496-7.667l1.627-1.162c3.139 4.394 7.805 7.061 7.851 7.087l.869.492-.981 1.74zM26 22h14v2H26z"
+      />
+      <path fill="#546E7A" d="M32 20h2v4h-2z" />
+      <path
+        fill="#2196F3"
+        d="M33 35H8a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h14l11 29z"
+      />
+      <path fill="#3F51B5" d="m26 42-3-7h10z" />
+      <path
+        fill="#FFF"
+        d="M19.172 24h-4.36l-1.008 3H11l4.764-13h2.444L23 27h-2.805l-1.023-3zm-3.728-2h3.101l-1.559-4.714L15.444 22z"
       />
     </svg>
   )
@@ -152,17 +192,16 @@ export const SearchIcon = (props: IconSvgProps) => (
 
 export const LanguageIcon = (props: IconSvgProps) => (
   <svg
-    className="size-6"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth={1.5}
-    viewBox="0 0 24 24"
     xmlns="http://www.w3.org/2000/svg"
+    width={24}
+    height={24}
+    viewBox="0 0 512 512"
+    {...props}
   >
+    <title>{'ionicons-v5-l'}</title>
     <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      d="m10.5 21 5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 0 1 6-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 0 1-3.827-5.802"
+      d="m478.33 433.6-90-218a22 22 0 0 0-40.67 0l-90 218a22 22 0 1 0 40.67 16.79L316.66 406h102.67l18.33 44.39A22 22 0 0 0 458 464a22 22 0 0 0 20.32-30.4ZM334.83 362 368 281.65 401.17 362ZM267.84 342.92a22 22 0 0 0-4.89-30.7c-.2-.15-15-11.13-36.49-34.73 39.65-53.68 62.11-114.75 71.27-143.49H330a22 22 0 0 0 0-44H214V70a22 22 0 0 0-44 0v20H54a22 22 0 0 0 0 44h197.25c-9.52 26.95-27.05 69.5-53.79 108.36-31.41-41.68-43.08-68.65-43.17-68.87a22 22 0 0 0-40.58 17c.58 1.38 14.55 34.23 52.86 83.93.92 1.19 1.83 2.35 2.74 3.51-39.24 44.35-77.74 71.86-93.85 80.74a22 22 0 1 0 21.07 38.63c2.16-1.18 48.6-26.89 101.63-85.59 22.52 24.08 38 35.44 38.93 36.1a22 22 0 0 0 30.75-4.9Z"
+      fill="#8d8d95"
     />
   </svg>
 )
