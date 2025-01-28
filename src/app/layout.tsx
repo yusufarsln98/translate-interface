@@ -6,8 +6,8 @@ import { fontSans } from '@/config/fonts'
 
 export const metadata: Metadata = {
   title: {
-    default: siteConfig.name,
-    template: `%s - ${siteConfig.name}`,
+    default: 'siteConfig.name',
+    template: '',
   },
   description: siteConfig.description,
   icons: {
@@ -38,8 +38,8 @@ export default function RootLayout({
       >
         <div className="relative flex flex-col h-screen">
           <main>{children}</main>
-          <footer className="w-full flex items-center justify-center py-3">
-            <p>Steel Slicing © {new Date().getFullYear()}</p>
+          <footer className="w-full flex items-center justify-center py-3 fixed bottom-0">
+            <p>Local Translate © {new Date().getFullYear()}</p>
           </footer>
         </div>
       </body>

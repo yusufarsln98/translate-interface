@@ -10,11 +10,10 @@ import {
 import clsx from 'clsx'
 import { Selection, SharedSelection } from '@nextui-org/react'
 import { usePathname, useRouter } from 'next/navigation'
-
 import { LanguageIcon } from './icons'
 
 import { useLanguage } from '@/providers/language-provider'
-import { redirectReplaceLocale } from '@/utils.ts/common'
+import { redirectReplaceLocale } from '@/utils/common'
 import { Locale } from '../dictionaries/i18n-config'
 export interface LanguageSwitchProps {
   className?: string

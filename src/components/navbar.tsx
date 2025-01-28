@@ -15,14 +15,14 @@ import { LanguageSwitch } from './language-switch'
 import { siteConfig } from '@/config/site'
 import { ThemeSwitch } from '@/components/theme-switch'
 import { Logo } from '@/components/icons'
-import { redirectByLocale } from '@/utils.ts/common'
+import { redirectByLocale } from '@/utils/common'
 import { useLanguage } from '@/providers/language-provider'
 
 export const Navbar = () => {
   const lang = useLanguage()
 
   return (
-    <NextUINavbar maxWidth="xl" position="sticky">
+    <NextUINavbar maxWidth="xl" position="sticky" isBordered>
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
         <NavbarBrand as="li" className="gap-3 max-w-fit">
           <NextLink
@@ -38,7 +38,7 @@ export const Navbar = () => {
               <NextLink
                 className={clsx(
                   linkStyles({ color: 'foreground' }),
-                  'data-[active=true]:text-primary data-[active=true]:font-medium font-medium text-[#546e7a]'
+                  'data-[active=true]:text-primary data-[active=true]:font-medium font-medium text-[#5c5c62]'
                 )}
                 href={redirectByLocale(lang, item.href)}
               >

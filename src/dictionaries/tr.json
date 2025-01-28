@@ -1,29 +1,37 @@
 {
-  "about": {
-    "title": "Hakkımızda",
-    "content": "Bu bir örnek hakkımızda sayfasıdır."
-  },
   "home": {
-    "tableColumns": {
-      "materialCode": "Malzeme Kodu",
-      "storageLocation": "Depo Yeri",
-      "batchNumber": "Parti Numarası",
-      "stockQuantity2": "Stok Miktarı",
-      "stockUnit2": "Stok Birimi",
-      "materialType": "Malzeme Tipi",
-      "description": "Açıklama",
-      "dimension1": "Boyut 1",
-      "dimension2": "Boyut 2",
-      "dimension3": "Boyut 3"
-    },
-    "buttons": {
-      "columns": "Sütunlar"
-    },
-    "placeholders": {
-      "search": "Malzeme Kodu veya Açıklama Arayın..."
-    },
-    "total": "Toplam",
-    "material": "Malzeme",
-    "rowsPerPage": "Gösterilen Satır Sayısı: "
+    "languageOptions": [
+      {
+        "label": "Türkçe",
+        "key": "tr"
+      },
+      {
+        "label": "İngilizce",
+        "key": "en"
+      },
+      {
+        "label": "Rusça",
+        "key": "ru"
+      },
+      {
+        "label": "Almanca",
+        "key": "de"
+      },
+      {
+        "label": "Fransızca",
+        "key": "fr"
+      },
+      {
+        "label": "İspanyolca",
+        "key": "es"
+      }
+    ],
+    "detectLanguage": "Dili Algıla",
+    "select": "Seç",
+    "limitExceeded": "Karakter sınırı aşıldı",
+    "enterText": "Metin girin...",
+    "text": "Metin",
+    "errorTitle": "Hata",
+    "errorDescription": "Metni çevirirken bir hata oluştu."
   }
 }
