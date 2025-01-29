@@ -5,6 +5,7 @@ import { Translation } from '../hooks/useTranslationHistory'
 import { HistoryOutlined, CloseOutlined } from '@ant-design/icons'
 import { Dictionary } from '@/dictionaries/get-dictionary'
 import { useCallback } from 'react'
+import { useTheme } from 'next-themes'
 
 interface TranslationHistoryProps {
   dictionary: Dictionary['home']
@@ -23,19 +24,36 @@ export default function TranslationHistory({
     return lang.charAt(0).toUpperCase() + lang.slice(1)
   }, [])
 
+  const { theme } = useTheme()
+  const isDark = theme === 'dark'
+
   return (
     <div className="flex flex-col gap-4 mt-6">
       {history.length > 0 ? (
         <>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <HistoryOutlined className="text-xl text-primary-500" />
-              <h3 className="text-xl font-normal text-gray-800">{t.history}</h3>
+              <HistoryOutlined
+                className={`text-xl ${
+                  isDark ? 'text-primary-300' : 'text-primary-500'
+                }`}
+              />
+              <h3
+                className={`text-xl font-normal ${
+                  isDark ? 'text-gray-200' : 'text-gray-800'
+                }`}
+              >
+                {t.history}
+              </h3>
             </div>
             <Button
               variant="light"
               size="sm"
-              className="text-red-600 hover:bg-red-50"
+              className={`${
+                isDark
+                  ? 'text-red-400 hover:bg-red-900'
+                  : 'text-red-600 hover:bg-red-50'
+              }`}
               onPress={clearHistory}
             >
               {t.deleteAll}
@@ -46,17 +64,35 @@ export default function TranslationHistory({
             {history.map((item, index) => (
               <Card
                 key={index}
-                className="group transition-all hover:border-gray-200 hover:shadow-sm border border-gray-100"
+                className={`group transition-all border ${
+                  isDark
+                    ? 'hover:border-gray-700 border-gray-600 hover:shadow-lg'
+                    : 'hover:border-gray-200 border-gray-100 hover:shadow-sm'
+                }`}
                 radius="sm"
                 shadow="none"
                 isHoverable
               >
-                <CardHeader className="flex justify-between items-center px-4 py-3 bg-gray-50">
-                  <div className="flex items-center gap-2 text-sm text-gray-500">
+                <CardHeader
+                  className={`flex justify-between items-center px-4 py-3 ${
+                    isDark ? 'bg-gray-800' : 'bg-gray-50'
+                  }`}
+                >
+                  <div
+                    className={`flex items-center gap-2 text-sm ${
+                      isDark ? 'text-gray-400' : 'text-gray-500'
+                    }`}
+                  >
                     <span className="font-medium">
                       {formatLanguage(item.sourceLanguage)}
                     </span>
-                    <span className="text-gray-400">→</span>
+                    <span
+                      className={`${
+                        isDark ? 'text-gray-500' : 'text-gray-400'
+                      }`}
+                    >
+                      →
+                    </span>
                     <span className="font-medium">
                       {formatLanguage(item.targetLanguage)}
                     </span>
@@ -65,7 +101,11 @@ export default function TranslationHistory({
                     isIconOnly
                     variant="flat"
                     size="sm"
-                    className="opacity-0 group-hover:opacity-100 transition-opacity text-red-600 hover:bg-red-50"
+                    className={`opacity-0 group-hover:opacity-100 transition-opacity ${
+                      isDark
+                        ? 'text-red-400 hover:bg-red-900'
+                        : 'text-red-600 hover:bg-red-50'
+                    }`}
                     onPress={() => deleteTranslation(index)}
                     aria-label={'delete'}
                   >
@@ -73,13 +113,23 @@ export default function TranslationHistory({
                   </Button>
                 </CardHeader>
 
-                <Divider className="bg-gray-100" />
+                <Divider
+                  className={`${isDark ? 'bg-gray-700' : 'bg-gray-100'}`}
+                />
 
                 <CardBody className="px-4 py-3 space-y-2">
-                  <p className="text-gray-600 text-base line-clamp-2">
+                  <p
+                    className={`${
+                      isDark ? 'text-gray-300' : 'text-gray-600'
+                    } text-base line-clamp-2`}
+                  >
                     {item.sourceText}
                   </p>
-                  <p className="text-gray-900 font-medium text-base line-clamp-2">
+                  <p
+                    className={`${
+                      isDark ? 'text-gray-100' : 'text-gray-900'
+                    } font-medium text-base line-clamp-2`}
+                  >
                     {item.targetText}
                   </p>
                 </CardBody>
@@ -89,8 +139,16 @@ export default function TranslationHistory({
         </>
       ) : (
         <div className="flex flex-col items-center justify-center py-8 px-4 text-center">
-          <HistoryOutlined className="text-3xl text-gray-400 mb-3" />
-          <p className="text-gray-500 text-lg">{t.emptyHistory}</p>
+          <HistoryOutlined
+            className={`text-3xl ${
+              isDark ? 'text-gray-500' : 'text-gray-400'
+            } mb-3`}
+          />
+          <p
+            className={`${isDark ? 'text-gray-400' : 'text-gray-500'} text-lg`}
+          >
+            {t.emptyHistory}
+          </p>
         </div>
       )}
     </div>
