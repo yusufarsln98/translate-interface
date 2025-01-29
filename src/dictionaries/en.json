@@ -43,6 +43,9 @@
     "image": "Image",
     "errorTitle": "Error",
     "errorDescription": "An error occurred while translating the text.",
-    "copied": "Copied"
+    "copied": "Copied",
+    "history": "Recent Translations",
+    "emptyHistory": "No recent translations",
+    "deleteAll": "Delete All"
   }
 }

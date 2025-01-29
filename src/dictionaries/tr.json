@@ -43,6 +43,9 @@
     "image": "Resim",
     "errorTitle": "Hata",
     "errorDescription": "Metni çevirirken bir hata oluştu.",
-    "copied": "Kopyalandı"
+    "copied": "Kopyalandı",
+    "history": "Son Çeviriler",
+    "emptyHistory": "Son çeviri bulunamadı",
+    "deleteAll": "Tümünü Sil"
   }
 }
