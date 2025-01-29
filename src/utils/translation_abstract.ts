@@ -1,4 +1,15 @@
-export type ISO6391LanguageCode = string
+// type ISO6391LanguageCode = 'tr' | 'en' | 'ru' | 'de' | 'fr' | 'es' | 'ar' | 'el'
+export const VALID_LANGUAGE_CODES = [
+  'tr',
+  'en',
+  'ru',
+  'de',
+  'fr',
+  'es',
+  'ar',
+  'el',
+] as const
+export type ISO6391LanguageCode = (typeof VALID_LANGUAGE_CODES)[number]
 
 export interface DetectLanguageInput {
   readonly text: string
@@ -17,8 +28,6 @@ export interface TranslateInput {
 
 export interface TranslateOutput {
   readonly translatedText: string
-  readonly sourceLang: ISO6391LanguageCode
-  readonly targetLang: ISO6391LanguageCode
 }
 
 export abstract class TranslationLLM<ConfigType = unknown> {
@@ -35,8 +44,8 @@ export abstract class TranslationLLM<ConfigType = unknown> {
   abstract translate(input: TranslateInput): Promise<TranslateOutput>
 
   protected validateLanguageCode(code: string): void {
-    if (!/^[a-z]{2}(-[A-Z]{2})?$/.test(code)) {
-      throw new Error(`Invalid ISO 639-1 language code: ${code}`)
+    if (!VALID_LANGUAGE_CODES.includes(code as ISO6391LanguageCode)) {
+      throw new Error(`Invalid language code: ${code}`)
     }
   }
 

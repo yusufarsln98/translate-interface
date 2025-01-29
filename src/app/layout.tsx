@@ -39,7 +39,7 @@ export default function RootLayout({
         <div className="relative flex flex-col h-screen">
           <main>{children}</main>
           <footer className="w-full flex items-center justify-center py-3 fixed bottom-0">
-            <p>Local Translate © {new Date().getFullYear()}</p>
+            <p>Translate © {new Date().getFullYear()}</p>
           </footer>
         </div>
       </body>

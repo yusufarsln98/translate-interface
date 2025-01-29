@@ -39,7 +39,10 @@
     "limitExceeded": "Character limit exceeded",
     "enterText": "Enter text...",
     "text": "Text",
+    "document": "Document",
+    "image": "Image",
     "errorTitle": "Error",
-    "errorDescription": "An error occurred while translating the text."
+    "errorDescription": "An error occurred while translating the text.",
+    "copied": "Copied"
   }
 }

@@ -4,14 +4,13 @@ import {
   DetectLanguageOutput,
   TranslateInput,
   TranslateOutput,
+  ISO6391LanguageCode,
 } from './translation_abstract'
 import { GoogleGenerativeAI } from '@google/generative-ai'
 
 type GeminiConfig = {
   apiKey: string
   modelName: string
-  primaryLang: string
-  secondaryLang: string
 }
 
 export class GeminiTranslator extends TranslationLLM<GeminiConfig> {
@@ -25,19 +24,17 @@ export class GeminiTranslator extends TranslationLLM<GeminiConfig> {
   async detectLanguage(
     input: DetectLanguageInput
   ): Promise<DetectLanguageOutput> {
-    const model = this.genAI.getGenerativeModel({
-      model: this.config.modelName,
-    })
-
-    const prompt = `Detect the ISO 639-1 language code for: "${input.text}". Respond ONLY with the code.`
-
     try {
+      const prompt = `Detect the ISO 639-1 language code for: "${input.text}". Respond ONLY with the code.`
+      const model = this.genAI.getGenerativeModel({
+        model: this.config.modelName,
+      })
       const result = await model.generateContent(prompt)
       const code = result.response.text().trim()
       this.validateLanguageCode(code)
 
       return {
-        languageCode: code,
+        languageCode: code as ISO6391LanguageCode,
         confidence: 1.0,
       }
     } catch (error) {
@@ -50,35 +47,25 @@ export class GeminiTranslator extends TranslationLLM<GeminiConfig> {
   }
 
   async translate(input: TranslateInput): Promise<TranslateOutput> {
+    if (input.sourceLanguage === input.targetLanguage) {
+      return { translatedText: input.text }
+    }
     try {
+      const prompt = `Text: ${input.text},
+                      Source Language: ${input.sourceLanguage},
+                      Target Language: ${input.targetLanguage},
+      If text is not belong to the source language, respond ONLY '$INVALID$'.
+      Otherwise, translate the text to the target language and respond ONLY with the translated text.
+      `
       const model = this.genAI.getGenerativeModel({
         model: this.config.modelName,
       })
-      const detection = await this.detectLanguage({ text: input.text })
-      const sourceLang = detection.languageCode
-
-      let targetLang = ''
-
-      // if target and source language are the same, select target either primary or secondary
-      if (sourceLang === input.targetLanguage) {
-        if (sourceLang === this.config.primaryLang) {
-          targetLang = this.config.secondaryLang
-        } else {
-          targetLang = this.config.primaryLang
-        }
-      } else {
-        targetLang = input.targetLanguage
-      }
-
-      const prompt = `Translate from ${sourceLang} to ${targetLang}: ${input.text}. Respond ONLY with the translated text.`
       const result = await model.generateContent(prompt)
       const translatedText = result.response.text().trim()
-
-      return {
-        translatedText,
-        sourceLang,
-        targetLang,
+      if (translatedText === '$INVALID$') {
+        throw new Error(`Invalid source language: ${input.sourceLanguage}`)
       }
+      return { translatedText }
     } catch (error) {
       throw new Error(
         `Translation failed: ${error instanceof Error ? error.message : error}`

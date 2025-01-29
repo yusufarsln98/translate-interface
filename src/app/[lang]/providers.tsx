@@ -9,6 +9,7 @@ import {
 } from 'next-themes'
 import { LanguageProvider } from '@/providers/language-provider'
 import { Locale } from '@/dictionaries/i18n-config'
+import { ToastContainer } from 'react-toastify'
 
 export interface ProvidersProps {
   children: React.ReactNode
@@ -22,6 +23,7 @@ export function Providers({ children, themeProps }: ProvidersProps) {
   return (
     <NextUIProvider navigate={router.push}>
       <NextThemesProvider {...themeProps}>
+        <ToastContainer />
         <LanguageProvider lang={lang as Locale}>{children}</LanguageProvider>
       </NextThemesProvider>
     </NextUIProvider>

@@ -39,7 +39,10 @@
     "limitExceeded": "Karakter sınırı aşıldı",
     "enterText": "Metin girin...",
     "text": "Metin",
+    "document": "Belge",
+    "image": "Resim",
     "errorTitle": "Hata",
-    "errorDescription": "Metni çevirirken bir hata oluştu."
+    "errorDescription": "Metni çevirirken bir hata oluştu.",
+    "copied": "Kopyalandı"
   }
 }

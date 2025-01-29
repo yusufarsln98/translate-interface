@@ -1,7 +1,7 @@
 export type SiteConfig = typeof siteConfig
 
 export const siteConfig = {
-  name: 'Local Translate',
+  name: 'Translate',
   description: 'Translate text, images, and documents to any language',
   navItems: {
     tr: [
@@ -12,7 +12,7 @@ export const siteConfig = {
     ],
     en: [
       {
-        label: 'Local Translate',
+        label: 'Translate',
         href: '/home',
       },
     ],
