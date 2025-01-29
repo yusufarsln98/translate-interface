@@ -1,13 +1,9 @@
-import { Poppins as FontSans, Roboto as FontMono } from 'next/font/google'
-
-export const fontSans = FontSans({
-  subsets: ['latin'],
+export const fontSans = {
   variable: '--font-sans',
-  weight: '400', // Normal weight for better readability
-})
+  className: 'font-poppins',
+}
 
-export const fontMono = FontMono({
-  subsets: ['latin'],
+export const fontMono = {
   variable: '--font-mono',
-  weight: '400', // Normal weight for better readability
-})
+  className: 'font-roboto',
+}

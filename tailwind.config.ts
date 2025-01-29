@@ -15,6 +15,10 @@ export default {
         background: 'var(--background)',
         foreground: 'var(--foreground)',
       },
+      fontFamily: {
+        sans: ['Poppins', 'sans-serif'],
+        mono: ['Roboto', 'monospace'],
+      },
     },
   },
   plugins: [nextui()],
