@@ -39,7 +39,6 @@ export default function HomeContainer({ dictionary: t }: HomeContainerProps) {
     useTranslationHistory()
 
   const languageOptions = t.languageOptions
-  const detectLanguage = { key: 'auto', label: t.detectLanguage }
 
   const handleCopy = () => {
     navigator.clipboard.writeText(targetText)
@@ -62,7 +61,7 @@ export default function HomeContainer({ dictionary: t }: HomeContainerProps) {
               <div className="flex flex-col gap-2 w-full">
                 <LanguageSelector
                   label="Source language"
-                  options={[detectLanguage, ...languageOptions]}
+                  options={languageOptions}
                   selectedKey={sourceLanguage}
                   onSelectionChange={setSourceLanguage}
                   className="w-[180px]"

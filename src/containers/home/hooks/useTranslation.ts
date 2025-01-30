@@ -9,8 +9,8 @@ import { toast } from 'react-toastify'
 export const useTranslation = (dictionary: Dictionary['home']) => {
   const [sourceText, setSourceText] = useState('')
   const [targetText, setTargetText] = useState('')
-  const [sourceLanguage, setSourceLanguage] = useState('auto')
-  const [targetLanguage, setTargetLanguage] = useState('en')
+  const [sourceLanguage, setSourceLanguage] = useState('en')
+  const [targetLanguage, setTargetLanguage] = useState('tr')
 
   const translator = new GeminiTranslator({
     apiKey: process.env.NEXT_PUBLIC_GEMINI_API_KEY || '',
@@ -19,29 +19,13 @@ export const useTranslation = (dictionary: Dictionary['home']) => {
 
   const handleTranslate = useDebouncedCallback(
     async (text: string) => {
-      if (text.length === 0) {
+      if (text.length === 0 || !sourceLanguage || !targetLanguage) {
         setTargetText('')
         return
       }
 
-      let sourceLang = sourceLanguage
-      if (sourceLang === 'auto') {
-        try {
-          const detection = await translator.detectLanguage({ text })
-          sourceLang = detection.languageCode
-          setSourceLanguage(sourceLang)
-        } catch (error) {
-          toast.error(
-            error instanceof Error ? error.message : 'Language detection failed'
-          )
-          throw new Error(
-            error instanceof Error ? error.message : 'Detection failed'
-          )
-        }
-      }
-
       let targetLang = targetLanguage
-      if (sourceLang === targetLang) {
+      if (sourceLanguage === targetLang) {
         targetLang =
           dictionary.languageOptions[0].key === targetLang
             ? dictionary.languageOptions[1].key
@@ -52,7 +36,7 @@ export const useTranslation = (dictionary: Dictionary['home']) => {
       try {
         const translation = await translator.translate({
           text,
-          sourceLanguage: sourceLang as ISO6391LanguageCode,
+          sourceLanguage: sourceLanguage as ISO6391LanguageCode,
           targetLanguage: targetLang as ISO6391LanguageCode,
         })
         setTargetText(translation.translatedText)

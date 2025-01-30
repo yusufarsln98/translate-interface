@@ -1,10 +1,7 @@
 import {
   TranslationLLM,
-  DetectLanguageInput,
-  DetectLanguageOutput,
   TranslateInput,
   TranslateOutput,
-  ISO6391LanguageCode,
 } from './translation_abstract'
 import { GoogleGenerativeAI } from '@google/generative-ai'
 
@@ -19,31 +16,6 @@ export class GeminiTranslator extends TranslationLLM<GeminiConfig> {
   constructor(config: GeminiConfig) {
     super(config)
     this.genAI = new GoogleGenerativeAI(config.apiKey)
-  }
-
-  async detectLanguage(
-    input: DetectLanguageInput
-  ): Promise<DetectLanguageOutput> {
-    try {
-      const prompt = `Detect the ISO 639-1 language code for: "${input.text}". Respond ONLY with the code.`
-      const model = this.genAI.getGenerativeModel({
-        model: this.config.modelName,
-      })
-      const result = await model.generateContent(prompt)
-      const code = result.response.text().trim()
-      this.validateLanguageCode(code)
-
-      return {
-        languageCode: code as ISO6391LanguageCode,
-        confidence: 1.0,
-      }
-    } catch (error) {
-      throw new Error(
-        `Language detection failed: ${
-          error instanceof Error ? error.message : error
-        }`
-      )
-    }
   }
 
   async translate(input: TranslateInput): Promise<TranslateOutput> {
