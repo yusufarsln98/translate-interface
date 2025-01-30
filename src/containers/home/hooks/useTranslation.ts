@@ -1,10 +1,9 @@
-// hooks/useTranslation.ts
 import { useState } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
-import { GeminiTranslator } from '@/utils/gemini_translator'
 import { ISO6391LanguageCode } from '@/utils/translation_abstract'
 import { Dictionary } from '@/dictionaries/get-dictionary'
 import { toast } from 'react-toastify'
+import { M2MTranslator } from '@/utils/m2m_translator'
 
 export const useTranslation = (dictionary: Dictionary['home']) => {
   const [sourceText, setSourceText] = useState('')
@@ -12,9 +11,9 @@ export const useTranslation = (dictionary: Dictionary['home']) => {
   const [sourceLanguage, setSourceLanguage] = useState('en')
   const [targetLanguage, setTargetLanguage] = useState('tr')
 
-  const translator = new GeminiTranslator({
-    apiKey: process.env.NEXT_PUBLIC_GEMINI_API_KEY || '',
-    modelName: process.env.NEXT_PUBLIC_GEMINI_MODEL_NAME || '',
+
+  const translator = new M2MTranslator({
+    apiUrl: process.env.NEXT_PUBLIC_API_URL || '',
   })
 
   const handleTranslate = useDebouncedCallback(
