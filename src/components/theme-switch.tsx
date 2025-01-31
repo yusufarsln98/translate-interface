@@ -8,6 +8,7 @@ import { useIsSSR } from '@react-aria/ssr'
 import clsx from 'clsx'
 
 import { MoonFilled, SunFilled } from '@ant-design/icons'
+import { Button } from '@nextui-org/react'
 
 export interface ThemeSwitchProps {
   className?: string
@@ -41,7 +42,6 @@ export const ThemeSwitch: FC<ThemeSwitchProps> = ({
     'aria-label': `Switch to ${
       theme === 'light' || isSSR ? 'dark' : 'light'
     } mode`,
-    onChange,
   })
 
   return (
@@ -77,9 +77,25 @@ export const ThemeSwitch: FC<ThemeSwitchProps> = ({
         })}
       >
         {!isSelected || isSSR ? (
-          <SunFilled style={{ fontSize: 22 }} />
+          <Button
+            isIconOnly
+            aria-label="Switch theme"
+            endContent={
+              <SunFilled style={{ fontSize: 22, color: '#8d8d95' }} />
+            }
+            variant="light"
+            onPress={onChange}
+          />
         ) : (
-          <MoonFilled style={{ fontSize: 22 }} />
+          <Button
+            isIconOnly
+            aria-label="Switch theme"
+            endContent={
+              <MoonFilled style={{ fontSize: 22, color: '#8d8d95' }} />
+            }
+            variant="light"
+            onPress={onChange}
+          />
         )}
       </div>
     </Component>

@@ -8,7 +8,7 @@ import {
   DropdownTrigger,
 } from '@nextui-org/dropdown'
 import clsx from 'clsx'
-import { Selection, SharedSelection } from '@nextui-org/react'
+import { Button, Selection, SharedSelection } from '@nextui-org/react'
 import { usePathname, useRouter } from 'next/navigation'
 import { LanguageIcon } from './icons'
 
@@ -47,15 +47,12 @@ export const LanguageSwitch: FC<LanguageSwitchProps> = ({ className }) => {
     <div className={clsx('relative inline-block', className)}>
       <Dropdown>
         <DropdownTrigger>
-          <button
+          <Button
+            isIconOnly
             aria-label="Switch language"
-            className={clsx(
-              'flex items-center justify-center transition-opacity hover:opacity-80 cursor-pointer',
-              'bg-transparent rounded-lg'
-            )}
-          >
-            <LanguageIcon size={22} />
-          </button>
+            endContent={<LanguageIcon size={22} />}
+            variant="light"
+          />
         </DropdownTrigger>
         <DropdownMenu
           disallowEmptySelection

@@ -3,6 +3,7 @@ import { Metadata, Viewport } from 'next'
 import { siteConfig } from '@/config/site'
 import { Navbar } from '@/components/navbar'
 import { Providers } from './providers'
+import Footer from '@/components/footler'
 
 export const metadata: Metadata = {
   title: {
@@ -39,6 +40,7 @@ export default function RootLayout({
       <div className="container mx-auto max-w-7xl pt-16 px-6 flex-grow">
         <div className="relative flex flex-col h-screen">{children}</div>
       </div>
+      <Footer />
     </Providers>
   )
 }

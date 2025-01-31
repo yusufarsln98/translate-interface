@@ -17,6 +17,7 @@ import { ThemeSwitch } from '@/components/theme-switch'
 import { Logo } from '@/components/icons'
 import { redirectByLocale } from '@/utils/common'
 import { useLanguage } from '@/providers/language-provider'
+import { TranslatorSwitch } from './translator-switch'
 
 export const Navbar = () => {
   const lang = useLanguage()
@@ -50,9 +51,10 @@ export const Navbar = () => {
       </NavbarContent>
 
       <NavbarContent className="sm:flex basis-1/5 sm:basis-full" justify="end">
-        <NavbarItem className="sm:flex gap-2">
+        <NavbarItem className="sm:flex gap-0">
           <ThemeSwitch />
           <LanguageSwitch />
+          <TranslatorSwitch />
         </NavbarItem>
       </NavbarContent>
     </NextUINavbar>
