@@ -1,20 +1,31 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
 import { ISO6391LanguageCode } from '@/utils/translation_abstract'
 import { Dictionary } from '@/dictionaries/get-dictionary'
 import { toast } from 'react-toastify'
 import { M2MTranslator } from '@/utils/m2m_translator'
+import { OllamaTranslator } from '@/utils/ollama_translator'
+import { useSearchParams } from 'next/navigation'
 
 export const useTranslation = (dictionary: Dictionary['home']) => {
+  const searchParams = useSearchParams()
+  const translatorType = searchParams.get('translator') || 'm2m_1.2b'
+
   const [sourceText, setSourceText] = useState('')
   const [targetText, setTargetText] = useState('')
   const [sourceLanguage, setSourceLanguage] = useState('en')
   const [targetLanguage, setTargetLanguage] = useState('tr')
   const [loading, setLoading] = useState(false)
 
-  const translator = new M2MTranslator({
-    apiUrl: process.env.NEXT_PUBLIC_API_URL || '',
-  })
+  const translator =
+    translatorType === 'm2m_1.2b'
+      ? new M2MTranslator({
+          apiUrl: process.env.NEXT_PUBLIC_M2M_API_URL || '',
+        })
+      : new OllamaTranslator({
+          apiUrl: process.env.NEXT_PUBLIC_OLLAMA_API_URL || '',
+          modelName: process.env.NEXT_PUBLIC_OLLAMA_MODEL_NAME || '',
+        })
 
   const handleTranslate = useDebouncedCallback(
     async (text: string) => {
@@ -55,6 +66,12 @@ export const useTranslation = (dictionary: Dictionary['home']) => {
     { maxWait: 1500 }
   )
 
+  useEffect(() => {
+    if (sourceText) {
+      handleTranslate(sourceText)
+    }
+  }, [translatorType]) // eslint-disable-line react-hooks/exhaustive-deps
+
   const swapLanguages = () => {
     setSourceText(targetText)
     setTargetText('')
@@ -74,5 +91,6 @@ export const useTranslation = (dictionary: Dictionary['home']) => {
     handleTranslate,
     swapLanguages,
     loading,
+    translatorType,
   }
 }
