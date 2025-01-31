@@ -10,7 +10,7 @@ export const useTranslation = (dictionary: Dictionary['home']) => {
   const [targetText, setTargetText] = useState('')
   const [sourceLanguage, setSourceLanguage] = useState('en')
   const [targetLanguage, setTargetLanguage] = useState('tr')
-
+  const [loading, setLoading] = useState(false)
 
   const translator = new M2MTranslator({
     apiUrl: process.env.NEXT_PUBLIC_API_URL || '',
@@ -33,6 +33,7 @@ export const useTranslation = (dictionary: Dictionary['home']) => {
       }
 
       try {
+        setLoading(true)
         const translation = await translator.translate({
           text,
           sourceLanguage: sourceLanguage as ISO6391LanguageCode,
@@ -46,6 +47,8 @@ export const useTranslation = (dictionary: Dictionary['home']) => {
         throw new Error(
           error instanceof Error ? error.message : 'Translation failed'
         )
+      } finally {
+        setLoading(false)
       }
     },
     1000,
@@ -70,5 +73,6 @@ export const useTranslation = (dictionary: Dictionary['home']) => {
     setTargetLanguage,
     handleTranslate,
     swapLanguages,
+    loading,
   }
 }

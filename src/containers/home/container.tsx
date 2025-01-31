@@ -34,6 +34,7 @@ export default function HomeContainer({ dictionary: t }: HomeContainerProps) {
     setTargetLanguage,
     handleTranslate,
     swapLanguages,
+    loading,
   } = useTranslation(t)
   const { addTranslation, history, deleteTranslation, clearHistory } =
     useTranslationHistory()
@@ -98,16 +99,24 @@ export default function HomeContainer({ dictionary: t }: HomeContainerProps) {
               </div>
 
               <div className="flex md:flex-col justify-center">
-                <Button
-                  isIconOnly
-                  endContent={<SwapOutlined />}
-                  variant="light"
-                  onPress={() => {
-                    swapLanguages()
-                    handleTranslate(targetText)
-                  }}
-                  isDisabled={sourceLanguage === 'auto'}
-                />
+                {loading ? (
+                  <>
+                    <Button isLoading={true} isIconOnly variant="light" />
+                  </>
+                ) : (
+                  <>
+                    <Button
+                      isIconOnly
+                      endContent={<SwapOutlined />}
+                      variant="light"
+                      onPress={() => {
+                        swapLanguages()
+                        handleTranslate(targetText)
+                      }}
+                      isDisabled={sourceLanguage === 'auto'}
+                    />
+                  </>
+                )}
               </div>
 
               <div className="flex flex-col gap-2 w-full">
