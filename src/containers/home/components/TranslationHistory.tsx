@@ -162,17 +162,17 @@ export default function TranslationHistory({
   return (
     <div className="flex flex-col gap-4 mt-6">
       {history.length > 0 ? (
-        <div
-          className="flex flex-col items-center justify-center py-8 px-4 text-center cursor-pointer opacity-100 hover:opacity-80 transition-opacity"
-          onClick={onOpen}
-        >
+        <div className="flex flex-col items-center justify-center py-8 px-4 text-center">
           <HistoryOutlined
             className={`text-3xl ${
               isDark ? 'text-blue-400' : 'text-blue-500'
             } mb-3`}
           />
           <p
-            className={`${isDark ? 'text-blue-400' : 'text-blue-500'} text-lg`}
+            className={`${
+              isDark ? 'text-blue-400' : 'text-blue-500'
+            } text-lg cursor-pointer opacity-100 hover:opacity-80 transition-opacity`}
+            onClick={onOpen}
           >
             {t.history}
           </p>
