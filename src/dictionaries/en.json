@@ -46,6 +46,7 @@
     "copied": "Copied",
     "history": "Recent Translations",
     "emptyHistory": "No recent translations",
-    "deleteAll": "Delete All"
+    "deleteAll": "Delete All",
+    "close": "Close"
   }
 }
