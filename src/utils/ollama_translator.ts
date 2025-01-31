@@ -15,7 +15,7 @@ export class OllamaTranslator extends TranslationLLM<OllamaConfig> {
 
   async translate(input: TranslateInput): Promise<TranslateOutput> {
     const system =
-      'You are an expert translator with deep understanding of language nuances, cultural context, and specialized terminology. Provide accurate and natural-sounding translations while preserving the original meaning and tone.'
+      'You are an expert translator with deep understanding of language nuances, cultural context, and specialized terminology. Provide accurate and natural-sounding translations while preserving the original meaning.'
     const prompt = `Translate the following text from ${input.sourceLanguage} to ${input.targetLanguage}:\n\n${input.text}`
     const format = {
       type: 'object',
@@ -40,6 +40,7 @@ export class OllamaTranslator extends TranslationLLM<OllamaConfig> {
           format: format,
           stream: false,
         }),
+        signal: input.abortSignal,
       })
 
       if (!response.ok) {
@@ -48,7 +49,7 @@ export class OllamaTranslator extends TranslationLLM<OllamaConfig> {
       }
 
       const data = await response.json()
-      return { translatedText: data.translated_text }
+      return { translatedText: JSON.parse(data.response).translated_text }
     } catch (error) {
       console.error('Translation error:', error)
       throw new Error('An error occurred while translating')

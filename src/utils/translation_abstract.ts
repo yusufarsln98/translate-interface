@@ -15,6 +15,7 @@ export interface TranslateInput {
   readonly text: string
   readonly sourceLanguage: ISO6391LanguageCode
   readonly targetLanguage: ISO6391LanguageCode
+  abortSignal: AbortSignal
 }
 
 export interface TranslateOutput {

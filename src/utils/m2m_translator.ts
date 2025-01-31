@@ -24,6 +24,7 @@ export class M2MTranslator extends TranslationLLM<M2MConfig> {
           src_lang: input.sourceLanguage,
           tgt_lang: input.targetLanguage,
         }),
+        signal: input.abortSignal,
       })
 
       if (!response.ok) {
