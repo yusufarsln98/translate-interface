@@ -6,10 +6,11 @@ import { toast } from 'react-toastify'
 import { M2MTranslator } from '@/utils/m2m_translator'
 import { OllamaTranslator } from '@/utils/ollama_translator'
 import { useSearchParams } from 'next/navigation'
+import { getTranslators } from '@/utils/queries'
 
 export const useTranslation = (dictionary: Dictionary['home']) => {
   const searchParams = useSearchParams()
-  const translatorType = searchParams.get('translator') || 'm2m_1.2b'
+  const translatorId = searchParams.get('translator')
   const abortControllerRef = useRef<AbortController | null>(null)
 
   const [sourceText, setSourceText] = useState('')
@@ -17,16 +18,30 @@ export const useTranslation = (dictionary: Dictionary['home']) => {
   const [sourceLanguage, setSourceLanguage] = useState('en')
   const [targetLanguage, setTargetLanguage] = useState('tr')
   const [loading, setLoading] = useState(false)
+  const [translator, setTranslator] = useState<
+    M2MTranslator | OllamaTranslator
+  >()
 
-  const translator =
-    translatorType === 'm2m_1.2b'
-      ? new M2MTranslator({
-          apiUrl: process.env.NEXT_PUBLIC_M2M_API_URL || '',
-        })
-      : new OllamaTranslator({
-          apiUrl: process.env.NEXT_PUBLIC_MODEL_URL || '',
-          modelName: process.env.NEXT_PUBLIC_MODEL_NAME || '',
-        })
+  useEffect(() => {
+    getTranslators('/api/translators').then((translators) => {
+      const selectedTranslator = translators.find(
+        (translator) => translator.id === translatorId
+      )
+
+      if (selectedTranslator?.id === '1') {
+        setTranslator(
+          new M2MTranslator({ apiUrl: selectedTranslator.modelUrl })
+        )
+      } else if (selectedTranslator?.id === '2') {
+        setTranslator(
+          new OllamaTranslator({
+            apiUrl: selectedTranslator.modelUrl,
+            modelName: selectedTranslator.modelName,
+          })
+        )
+      }
+    })
+  }, [translatorId])
 
   const handleTranslate = useDebouncedCallback(
     async (text: string) => {
@@ -55,7 +70,7 @@ export const useTranslation = (dictionary: Dictionary['home']) => {
 
       try {
         setLoading(true)
-        const translation = await translator.translate({
+        const translation = await translator?.translate({
           text,
           sourceLanguage: sourceLanguage as ISO6391LanguageCode,
           targetLanguage: targetLang as ISO6391LanguageCode,
@@ -64,7 +79,7 @@ export const useTranslation = (dictionary: Dictionary['home']) => {
 
         // Only update if this request wasn't aborted
         if (!signal.aborted) {
-          setTargetText(translation.translatedText)
+          setTargetText(translation?.translatedText || '')
         }
       } catch (error) {
         // Don't show error toast if the request was aborted
@@ -100,7 +115,7 @@ export const useTranslation = (dictionary: Dictionary['home']) => {
         abortControllerRef.current.abort()
       }
     }
-  }, [translatorType]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [translatorId]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const swapLanguages = () => {
     setSourceText(targetText)
@@ -121,6 +136,6 @@ export const useTranslation = (dictionary: Dictionary['home']) => {
     handleTranslate,
     swapLanguages,
     loading,
-    translatorType,
+    translatorType: translatorId,
   }
 }

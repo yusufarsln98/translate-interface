@@ -14,7 +14,7 @@ export class M2MTranslator extends TranslationLLM<M2MConfig> {
 
   async translate(input: TranslateInput): Promise<TranslateOutput> {
     try {
-      const response = await fetch(`${this.config.apiUrl}/translate`, {
+      const response = await fetch(`${this.config.apiUrl}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

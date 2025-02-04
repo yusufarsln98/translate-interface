@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Dropdown,
   DropdownItem,
@@ -8,32 +8,43 @@ import {
   DropdownTrigger,
 } from '@nextui-org/dropdown'
 import clsx from 'clsx'
-import { Button, Selection, SharedSelection } from '@nextui-org/react'
+import { Button, SharedSelection } from '@nextui-org/react'
 import { SettingFilled } from '@ant-design/icons'
 import { useSearchParams, useRouter } from 'next/navigation'
+import UpdateTranslatorModal from './update-translator-modal'
+import { getTranslators, updateTranslator } from '@/utils/queries'
 
-const TRANSLATORS: {
-  key: string
+type TranslatorType = {
+  id: string
+  modelName: string
+  modelUrl: string
   label: string
-}[] = [
-  { key: 'm2m_1.2b', label: 'M2M 1.2B' },
-  { key: 'local_ai', label: 'Local AI' },
-]
+}
 
-export const TranslatorSwitch = ({}) => {
+export const TranslatorSwitch = () => {
+  const [translators, setTranslators] = useState<TranslatorType[]>()
   const searchParams = useSearchParams()
   const router = useRouter()
+  const [currentTranslator, setCurrentTranslator] = useState<string>(
+    searchParams.get('translator') || '1'
+  )
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
-  // Get the translator from URL or use default
-  const currentTranslator = searchParams.get('translator') || 'm2m_1.2b'
+  useEffect(() => {
+    getTranslators('/api/translators').then((translators) => {
+      setTranslators(translators)
 
-  const selectedTranslator: Selection = new Set([currentTranslator])
+      // if no translator in the URL, set the first translator as default and update the URL
+      if (!searchParams.get('translator') && translators.length > 0) {
+        const newSearchParams = new URLSearchParams(searchParams.toString())
+        newSearchParams.set('translator', translators[0].id)
+        router.push(`?${newSearchParams.toString()}`)
+      }
+    })
+  }, [])
 
   const onSelectionChange = (selected: SharedSelection) => {
-    // Convert Selection type to string
     const selectedKey = Array.from(selected)[0]?.toString()
-
-    // Create new URLSearchParams object
     const newSearchParams = new URLSearchParams(searchParams.toString())
 
     if (selectedKey) {
@@ -41,19 +52,9 @@ export const TranslatorSwitch = ({}) => {
     } else {
       newSearchParams.delete('translator')
     }
-
-    // Update URL with new search params
+    setCurrentTranslator(selectedKey)
     router.push(`?${newSearchParams.toString()}`)
   }
-
-  // Set default translator if none is selected
-  useEffect(() => {
-    if (!searchParams.get('translator')) {
-      const newSearchParams = new URLSearchParams(searchParams.toString())
-      newSearchParams.set('translator', 'm2m_1.2b')
-      router.push(`?${newSearchParams.toString()}`)
-    }
-  }, [searchParams, router])
 
   return (
     <div className={clsx('relative inline-block')}>
@@ -73,18 +74,60 @@ export const TranslatorSwitch = ({}) => {
             variant="light"
           />
         </DropdownTrigger>
-        <DropdownMenu
-          disallowEmptySelection
-          aria-label="Language selection"
-          selectedKeys={selectedTranslator}
-          selectionMode="single"
-          onSelectionChange={onSelectionChange}
-        >
-          {TRANSLATORS.map((translator) => (
-            <DropdownItem key={translator.key}>{translator.label}</DropdownItem>
-          ))}
-        </DropdownMenu>
+        {translators && (
+          <DropdownMenu
+            disallowEmptySelection
+            aria-label="Language selection"
+            selectionMode="single"
+            emptyContent="No translators available"
+            selectedKeys={new Set([currentTranslator])}
+            onSelectionChange={onSelectionChange}
+          >
+            {translators.map((translator) => (
+              <DropdownItem key={translator.id}>
+                <div className="flex w-full gap-2 justify-between items-center">
+                  <div>{translator.label}</div>
+                  <SettingFilled
+                    style={{
+                      color: '#8d8d95',
+                      fontSize: '1rem',
+                    }}
+                    className="transition-transform hover:rotate-45 duration-200"
+                    onClick={() => {
+                      setIsModalOpen(true)
+                      setCurrentTranslator(translator.id)
+                    }}
+                  />
+                </div>
+              </DropdownItem>
+            ))}
+          </DropdownMenu>
+        )}
       </Dropdown>
+      <UpdateTranslatorModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSave={(data) => {
+          updateTranslator(`/api/translators`, data).then(
+            (updatedTranslator) => {
+              if (updatedTranslator) {
+                setTranslators(
+                  translators?.map((translator) =>
+                    translator.id === updatedTranslator.id
+                      ? updatedTranslator
+                      : translator
+                  )
+                )
+              }
+            }
+          )
+        }}
+        translator={
+          translators?.find(
+            (translator) => translator.id === currentTranslator
+          ) || { id: '', modelName: '', modelUrl: '', label: '' }
+        }
+      />
     </div>
   )
 }

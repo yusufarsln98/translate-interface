@@ -28,7 +28,7 @@ export class OllamaTranslator extends TranslationLLM<OllamaConfig> {
     }
 
     try {
-      const response = await fetch(`${this.config.apiUrl}/api/generate`, {
+      const response = await fetch(`${this.config.apiUrl}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
