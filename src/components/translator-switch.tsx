@@ -41,6 +41,7 @@ export const TranslatorSwitch = () => {
         router.push(`?${newSearchParams.toString()}`)
       }
     })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const onSelectionChange = (selected: SharedSelection) => {
