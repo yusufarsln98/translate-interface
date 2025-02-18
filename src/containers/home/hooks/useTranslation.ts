@@ -83,7 +83,7 @@ export const useTranslation = (dictionary: Dictionary['home']) => {
         }
       } catch (error) {
         // Don't show error toast if the request was aborted
-        if (error instanceof Error && !error.message.includes('AbortError')) {
+        if (error instanceof Error && error.message.includes('AbortError')) {
           return
         }
 
