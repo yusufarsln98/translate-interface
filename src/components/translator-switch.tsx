@@ -26,7 +26,7 @@ export const TranslatorSwitch = () => {
   const searchParams = useSearchParams()
   const router = useRouter()
   const [currentTranslator, setCurrentTranslator] = useState<string>(
-    searchParams.get('translator') || '1'
+    searchParams.get('translator') || '2'
   )
   const [isModalOpen, setIsModalOpen] = useState(false)
 
@@ -37,7 +37,7 @@ export const TranslatorSwitch = () => {
       // if no translator in the URL, set the first translator as default and update the URL
       if (!searchParams.get('translator') && translators.length > 0) {
         const newSearchParams = new URLSearchParams(searchParams.toString())
-        newSearchParams.set('translator', translators[0].id)
+        newSearchParams.set('translator', translators[1].id)
         router.push(`?${newSearchParams.toString()}`)
       }
     })
